@@ -12,7 +12,7 @@ public class Program
 
     static void Main()
     {
-        // Initialize the DbContext (you might want to do this at the beginning of your application)
+        
         var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer("Server=tcp:localhost,1433;Initial Catalog=BlandGroup;User ID=sa;Password=blandgroup;MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=false;").Options;
 
         _dbContext = new ApplicationDbContext(contextOptions);

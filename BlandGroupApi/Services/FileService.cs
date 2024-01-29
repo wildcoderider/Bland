@@ -28,7 +28,7 @@ namespace BlandGroupApi.Services
         {
             try
             {
-                var container = _blobClient.GetContainerReference("userFiles");
+                var container = _blobClient.GetContainerReference("blandgroupfiles");
                 await container.CreateIfNotExistsAsync();
 
                 var blobName = $"{Guid.NewGuid()}{extension}";

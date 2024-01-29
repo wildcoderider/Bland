@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using BlandGroupApi.EntityFramework;
-using BlandGroupShared.EntityFramework;
 using BlandGroupShared.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 

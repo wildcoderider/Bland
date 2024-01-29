@@ -1,11 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using BlandGroupApi.EntityFramework;
+﻿using BlandGroupApi.EntityFramework;
 using BlandGroupApi.Interfaces;
-using BlandGroupShared.EntityFramework;
 using BlandGroupShared.EntityFramework.Entities;
-using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 

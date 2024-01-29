@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 namespace BlandGroupApi.Services
 {
     public class CameraBackgroundService : BackgroundService

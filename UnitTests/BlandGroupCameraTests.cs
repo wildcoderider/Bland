@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BlandGroupApi.Services;
-using BlandGroupApi.Interfaces;
 using BlandGroupApi.Models;
-using BlandGroupShared.EntityFramework;
 using BlandGroupShared.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using Xunit;
 using BlandGroupApi.EntityFramework;
 
 namespace BlandGroupApi.Tests.Services

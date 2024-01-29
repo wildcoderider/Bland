@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using BlandGroupApi.Interfaces;
 using BlandGroupShared.EntityFramework.Entities;
 using Microsoft.AspNetCore.Mvc;

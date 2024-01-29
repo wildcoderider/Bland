@@ -1,12 +1,9 @@
-﻿using System;
-using BlandGroupApi.EntityFramework;
+﻿using BlandGroupApi.EntityFramework;
 using BlandGroupApi.Interfaces;
 using BlandGroupApi.Models;
-using BlandGroupShared.EntityFramework;
 using BlandGroupShared.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+
 
 namespace BlandGroupApi.Services
 {

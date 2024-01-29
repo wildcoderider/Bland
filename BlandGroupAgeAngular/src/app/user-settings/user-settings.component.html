@@ -1,0 +1,20 @@
+<p>{{fileUploadedMessage}}</p>
+<div *ngIf="fileUploaded">
+<ul>
+    <li>Name: {{uploadFileResponse?.name}}</li>
+    <li>Size: {{uploadFileResponse?.size}}</li>
+    <li>Content Type: {{uploadFileResponse?.contentType}}</li>
+    <li>Extension: {{uploadFileResponse?.extension}}</li>
+    <li>File Path: {{uploadFileResponse?.filePath}}</li>
+</ul>
+</div>
+<button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+<input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+<br><br>
+
+<mat-form-field>
+    <input matInput (dateChange)="onDateChange($event)" [matDatepicker]="picker" [formControl]="dateControl" placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<p>{{userAge}}</p>

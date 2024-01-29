@@ -5,20 +5,20 @@ namespace BlandGroupShared.EntityFramework.Entities
 {
 	public class Plate : BaseEntity
 	{
-        [MaxLength(3)]
+        //[MaxLength(3)]
         public string? CountryOfVehicle { get; set; }
 
-        [MaxLength(10)]
+        //[MaxLength(10)]
         public string? RegNumber { get; set; }
 
         public int ConfidenceLevel { get; set; }
 
-        [MaxLength(10)]
+        //[MaxLength(10)]
         public string? CameraName { get; set; }
 
         public DateTime CaptureDateTime { get; set; }
 
-        [MaxLength(100)]
+        //[MaxLength(100)]
         public string? ImageFilename { get; set; }
     }
 }

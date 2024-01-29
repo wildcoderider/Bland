@@ -2,12 +2,14 @@
 using BlandGroupShared.EntityFramework.Entities;
 
 
-namespace BlandGroupShared.EntityFramework
+namespace BlandGroupApi.EntityFramework
 {
     public class ApplicationDbContext : DbContext
     {
         public DbSet<UserFile> UserFiles { get; set; }
         public DbSet<Plate> Plates { get; set; }
+
+        public ApplicationDbContext() { }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -18,8 +20,8 @@ namespace BlandGroupShared.EntityFramework
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("");
-                
+                optionsBuilder.UseSqlServer("Server=tcp:localhost,1433;Initial Catalog=BlandGroup;User ID=sa;Password=blandgroup;MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=false;");
+
             }
             
         }

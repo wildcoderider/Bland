@@ -20,9 +20,9 @@ namespace BlandGroupApi.Controllers
         [HttpGet("filterPlate")]
         [ProducesResponseType(200, Type = typeof(FilterPlateResponse))]
         [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> filterPlate([FromQuery] string camera, DateTime dateFrom, DateTime dateTo)
+        public async Task<IActionResult> filterPlate([FromQuery] string? camera = null, DateTime dateFrom = default, DateTime dateTo = default)
         {
-            if (!string.IsNullOrEmpty(camera) && IsValidDateRange(dateFrom, dateTo))
+            if (IsValidDateRange(dateFrom, dateTo))
             {
                 var response = await _plateReaderService.GetPlatesAsync(camera, dateFrom, dateTo);
                 return Ok(new FilterPlateResponse { Plates = response });

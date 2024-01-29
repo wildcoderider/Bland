@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Threading.Tasks;
+using BlandGroupApi.EntityFramework;
 using BlandGroupShared.EntityFramework;
 using BlandGroupShared.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 
- public class Program
+public class Program
 {
-    
     private static ApplicationDbContext _dbContext;
 
     static void Main()
     {
         // Initialize the DbContext (you might want to do this at the beginning of your application)
-        var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer("Server=tcp:localhost,1433;Initial Catalog=BlandGroup;User ID=sa;Password=blandGroup;MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=false;").Options;
+        var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlServer("Server=tcp:localhost,1433;Initial Catalog=BlandGroup;User ID=sa;Password=blandgroup;MultipleActiveResultSets=True;Encrypt=false;TrustServerCertificate=false;").Options;
 
         _dbContext = new ApplicationDbContext(contextOptions);
 
-        string relativeFilePath = "/Users/egoitz/Projects/BlandGroup/BlandGroupCamera/CameraPlates"; // Replace with your relative file path
+        string relativeFilePath = "/Users/egoitz/Projects/Bland/BlandGroupCamera/CameraPlates"; // Replace with your relative file path
 
-       // Create a new instance of FileSystemWatcher
+        // Create a new instance of FileSystemWatcher
         using (FileSystemWatcher watcher = new FileSystemWatcher(relativeFilePath))
         {
             // Set IncludeSubdirectories to true to monitor subdirectories
             watcher.IncludeSubdirectories = true;
 
             // Subscribe to the Created event
-            watcher.Created += (sender, args) => Task.Run(() => OnFileCreated(sender, args).Wait());
+            watcher.Created += OnFileCreated; // Here we could also used an asyn Approach.
 
             // Start monitoring
             watcher.EnableRaisingEvents = true;
@@ -40,11 +39,11 @@ using Microsoft.EntityFrameworkCore;
             while (Console.ReadKey().Key != ConsoleKey.Q) { }
         }
 
-        // Dispose of the DbContext when it's no longer needed (you might want to do this at the end of your application)
+        
         _dbContext.Dispose();
     }
 
-    public static async Task OnFileCreated(object sender, FileSystemEventArgs e)
+    public static void OnFileCreated(object sender, FileSystemEventArgs e)
     {
         Console.WriteLine($"File created: {e.FullPath}");
 
@@ -62,24 +61,30 @@ using Microsoft.EntityFrameworkCore;
 
                 if (existingPlate == null)
                 {
-                    Plate plate = new Plate
+
+                    string date = substrings[4];
+                    string time = substrings[5];
+
+                    string dateTimeString = $"{date.Substring(0, 4)}-{date.Substring(4, 2)}-{date.Substring(6, 2)} {time.Substring(0, 2)}:{time.Substring(2, 2)}";
+
+                    if (DateTime.TryParseExact(dateTimeString, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime captureDateTime))
                     {
-                        CountryOfVehicle = substrings[0],
-                        RegNumber = substrings[1].StartsWith("r", StringComparison.OrdinalIgnoreCase) ? substrings[1].Substring(1) : substrings[1],
-                        ConfidenceLevel = int.Parse(substrings[2].StartsWith("r", StringComparison.OrdinalIgnoreCase) ? substrings[2].Substring(1) : substrings[2]),
-                        CameraName = substrings[3].StartsWith("r", StringComparison.OrdinalIgnoreCase) ? substrings[3].Substring(1) : substrings[3],
-                        CaptureDateTime = DateTime.ParseExact(substrings[4], "yyyyMMddHHmm", CultureInfo.InvariantCulture),
-                        ImageFilename = substrings[6]
-                    };
 
-                    
-                    _dbContext.Plates.Add(plate);
+                        Plate plate = new Plate
+                        {
+                            CountryOfVehicle = substrings[0],
+                            RegNumber = substrings[1].StartsWith("r", StringComparison.OrdinalIgnoreCase) ? substrings[1].Substring(1) : substrings[1],
+                            ConfidenceLevel = int.Parse(substrings[2].StartsWith("r", StringComparison.OrdinalIgnoreCase) ? substrings[2].Substring(1) : substrings[2]),
+                            CameraName = substrings[3].StartsWith("r", StringComparison.OrdinalIgnoreCase) ? substrings[3].Substring(1) : substrings[3],
+                            CaptureDateTime = captureDateTime,
+                            ImageFilename = substrings[6]
+                        };
 
-                    await _dbContext.SaveChangesAsync();
+                        _dbContext.Plates.Add(plate);
+
+                        _dbContext.SaveChanges(); // We could use Async saving and have all methods async.
+                    }
                 }
-
-                
-               
             }
             catch (Exception ex)
             {
@@ -92,3 +97,4 @@ using Microsoft.EntityFrameworkCore;
         }
     }
 }
+

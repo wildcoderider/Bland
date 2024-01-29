@@ -1,4 +1,5 @@
 ﻿using System;
+using BlandGroupApi.EntityFramework;
 using BlandGroupApi.Interfaces;
 using BlandGroupApi.Models;
 using BlandGroupShared.EntityFramework;
@@ -22,8 +23,25 @@ namespace BlandGroupApi.Services
         public async Task<List<PlateResponse>> GetPlatesAsync(string camera, DateTime dateFrom, DateTime dateTo)
         {
 
-                List<PlateResponse> plates = await _dbContext.Plates
-                .Where(x => x.CameraName == camera && x.CaptureDateTime >= dateFrom && x.CaptureDateTime <= dateTo) // Here we could use also automapper here ot at controller level.
+
+            IQueryable<Plate> query = _dbContext.Plates;
+
+            if(camera != null)
+            {
+                query = query.Where(x => x.CameraName == camera);
+            }
+
+            if (dateFrom != default)
+            {
+                query = query.Where(x => x.CaptureDateTime >= dateFrom);
+            }
+
+            if (dateTo != default)
+            {
+                query = query.Where(x => x.CaptureDateTime <= dateTo);
+            }
+
+            List<PlateResponse> plates = await query
                 .Select(x => new PlateResponse
                 {
                     CameraName = x.CameraName,

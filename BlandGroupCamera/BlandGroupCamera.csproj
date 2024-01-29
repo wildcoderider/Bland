@@ -15,5 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlandGroupShared\BlandGroupShared.csproj" />
+    <ProjectReference Include="..\BlandGroupApi\BlandGroupApi.csproj" />
   </ItemGroup>
 </Project>

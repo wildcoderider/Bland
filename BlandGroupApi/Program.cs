@@ -1,10 +1,14 @@
-﻿
+﻿using System.Net.NetworkInformation;
+using BlandGroupApi.EntityFramework;
 using BlandGroupApi.Interfaces;
 using BlandGroupApi.Services;
 using BlandGroupShared.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+
+
+
 
 namespace BlandGroupApi;
 
@@ -36,6 +40,12 @@ public class Program
         });
 
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+       // builder.Services.AddDbContext<ApplicationDbContext>(
+    //options =>
+       // options.UseSqlServer(
+          //  builder.Configuration.GetConnectionString("DefaultConnection"),
+           // x => x.MigrationsAssembly("BlandGroupShared.EntityFramework.Migrations")));
 
         builder.Services.AddSwaggerGen(c =>
         {
